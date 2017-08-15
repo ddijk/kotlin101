@@ -1,0 +1,64 @@
+package nl.jaspersprengers.demo
+
+class Demo {
+
+    companion object {
+        @JvmStatic
+        fun main(args: Array<String>) {
+            propertiesAndConstructorsExample()
+            fruitExample()
+            nullabilityExample()
+            operatorOverloadingExample()
+        }
+
+        fun propertiesAndConstructorsExample() { //return type van deze method is Unit (vgl. Java void)
+            println("Properties and constructors")
+            val it = Department(name = "IT") // niet verplicht
+            println(it.manager ?: "No boss!")
+            it.employees = listOf(Employee("Moss", 4000), Employee("Roy", 3500))
+            println(it.manager!!.name)
+            it.manager = Employee("Jenn", 5000)
+            println(it.manager!!.name)
+
+            fun printSalary(salary: Int, name: String) = "$name earns $salary per month"
+            println(it.employees.map { it.name }.reduce { acc, s -> "$acc and  $s" })
+            println(it.employees.maxBy { it.salary }?.name)
+
+            it.employees.forEach { println(printSalary(it.salary, it.name)) }
+        }
+
+        fun fruitExample() {
+            println("The magic juicer")
+            val appleInAppleJuiceOut: Juicer<Apple, AppleJuice>? = null // deze pers maakt van appels appelsap
+
+            val appleInFruitJuiceOut: Juicer<Apple, Juice>? = appleInAppleJuiceOut // Deze pers maakt van appels fruitsap: OK. Dit zou niet mogelijk zijn zonder de out declaratie
+            //val fruitInAppleJuiceOut: Juicer<Fruit, AppleJuice>? = appleInAppleJuiceOut //Deze pers maakt van fruit appelsap: FOUT
+
+            val fruitInJuiceOut: Juicer<Fruit, Juice>? = null // deze pers maakt van elk soort fruit sap
+            val applesInFruitJuiceOut: Juicer<Apple, Juice>? = fruitInJuiceOut // deze pers maakt van appels appelsap. Dit zou niet mogelijk zijn zonder de in declaratie
+            //val applesInAppleJuiceOut: Juicer<Fruit, AppleJuice>? = fruitInJuiceOut // Compile fout: je mag er niet vanuit gaan
+        }
+
+        fun nullabilityExample() {
+            println("Nullability")
+            fun findCustomer(id: Long): Customer? = Customer()
+            val customer: Customer = findCustomer(123) ?: throw IllegalArgumentException("No customer 123")
+            val customerOrNone: Customer? = findCustomer(123)
+            //customerOrNone.name //Compiler error, want winnerOrNone kan null zijn
+            val nameorNull: String? = customerOrNone?.name // gebruik de elvis notatie
+            val name: String = customerOrNone?.name ?: "No name"// gebruik de elvis notatie
+        }
+
+        operator fun Int.plus(money: Dollar): Dollar = money.plus(this)
+
+        fun operatorOverloadingExample() {
+            println("Operator overloading")
+            val p1 = Dollar(1200)
+            val p2 = Dollar(800)
+            println(p1 + p2 + 3)// invokes p1.plus(p2).plus(3)
+            println(3 + p1 + p2)// invokes 3.plus(p1).plus(p2)
+
+        }
+    }
+
+}
