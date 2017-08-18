@@ -31,11 +31,19 @@ class Demo {
             println("The magic juicer")
             val appleInAppleJuiceOut: Juicer<Apple, AppleJuice>? = null // deze pers maakt van appels appelsap
 
-            val appleInFruitJuiceOut: Juicer<Apple, Juice>? = appleInAppleJuiceOut // Deze pers maakt van appels fruitsap: OK. Dit zou niet mogelijk zijn zonder de out declaratie
-            //val fruitInAppleJuiceOut: Juicer<Fruit, AppleJuice>? = appleInAppleJuiceOut //Deze pers maakt van fruit appelsap: FOUT
+            /**
+             * Deze pers maakt van appels fruitsap: OK.
+             * Als je de 'out' modifier verwijdert in de interface Juicer geeft dit een compiler error
+             */
+            val appleInFruitJuiceOut: Juicer<Apple, Juice>? = appleInAppleJuiceOut
+            //val fruitInAppleJuiceOut: Juicer<Fruit, AppleJuice>? = appleInAppleJuiceOut //Deze pers maakt van fruit appelsap: FOUT. Verwijder het commentaar en je ziet de compiler error.
 
             val fruitInJuiceOut: Juicer<Fruit, Juice>? = null // deze pers maakt van elk soort fruit sap
-            val applesInFruitJuiceOut: Juicer<Apple, Juice>? = fruitInJuiceOut // deze pers maakt van appels appelsap. Dit zou niet mogelijk zijn zonder de in declaratie
+            /**
+             * deze pers maakt van appels appelsap.
+             * Als je de 'in' modifier verwijdert in de interface Juicer geeft dit een compiler error
+             */
+            val applesInFruitJuiceOut: Juicer<Apple, Juice>? = fruitInJuiceOut
             //val applesInAppleJuiceOut: Juicer<Fruit, AppleJuice>? = fruitInJuiceOut // Compile fout: je mag er niet vanuit gaan
         }
 
@@ -57,8 +65,13 @@ class Demo {
             val p2 = Dollar(800)
             println(p1 + p2 + 3)// invokes p1.plus(p2).plus(3)
             println(3 + p1 + p2)// invokes 3.plus(p1).plus(p2)
-
+            val totalPrice = 300 + currentPrice() + orderTotal()
+            println("total price = $totalPrice")
         }
+
+        fun currentPrice() = Dollar(550)
+        fun orderTotal() = 400
+
     }
 
 }
