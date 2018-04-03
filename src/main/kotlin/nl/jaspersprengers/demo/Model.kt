@@ -4,12 +4,12 @@ package nl.jaspersprengers.demo
  * Ons fruitmodel. Merk op dat klassen in Kotlin standaard niet te subclassificeren zijn, tenzij met het keyword open.
  * Dit is dus het omgekeerde gedrag van Java's final keyword.
  */
-open abstract class Fruit
+abstract class Fruit
 
-open class Apple : Fruit()
+class Apple : Fruit()
 
 open class Juice
-open class AppleJuice : Juice()
+class AppleJuice : Juice()
 
 /**
  * De in en out keywords maken covariance en contravariance mogelijk
@@ -18,13 +18,11 @@ interface Juicer<in F : Fruit, out J : Juice> {
     fun squeeze(f: F): J
 }
 
-//Meer is er niet nodig om een class te initialiseren!
-class Cat
-
 /**
  * Een data class voegt verschillende standaard implementaties voor methodes als toString, equals en hashCode
  */
-data class Customer(val name: String = "Bruce")
+data class Customer(val id: Long, val name: String = "Bruce", val gender: Gender? = null)
+enum class Gender { M,F,U}
 
 class Dollar(val cents: Int) {
     operator fun plus(cts: Int): Dollar = Dollar(cts + cents)
