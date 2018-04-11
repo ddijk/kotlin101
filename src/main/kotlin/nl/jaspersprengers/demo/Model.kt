@@ -22,7 +22,8 @@ interface Juicer<in F : Fruit, out J : Juice> {
  * Een data class voegt verschillende standaard implementaties voor methodes als toString, equals en hashCode
  */
 data class Customer(val id: Long, val name: String = "Bruce", val gender: Gender? = null)
-enum class Gender { M,F,U}
+
+enum class Gender { M, F, U }
 
 class Dollar(val cents: Int) {
     operator fun plus(cts: Int): Dollar = Dollar(cts + cents)
@@ -31,12 +32,13 @@ class Dollar(val cents: Int) {
 }
 
 
-class Employee(val name: String="jeff", val salary: Int=999)
+data class Employee(val name: String = "jeff", val salary: Int = 999)
 
 class Department(val name: String, var employees: List<Employee> = listOf()) {
     var manager: Employee? = null
         get() = if (field == null && !employees.isEmpty()) employees[0] else field
         set(value) {
             if (value == null) throw IllegalArgumentException("We need a real manager")
+            field = value
         }
 }

@@ -23,4 +23,24 @@ internal class CustomerTest {
 
         assertThat(custA).isEqualTo(custB);
     }
+
+    @Test
+    fun getGender() {
+
+        val custA = Customer(3, "jaap");
+
+        val g = custA.gender ?: Gender.U;
+
+        assertThat(g).isEqualTo(Gender.U);
+    }
+
+    @Test
+    fun getGenderNull() {
+
+        val custA = Customer(3, "jaap");
+
+        val g = custA.gender;
+
+        assertThat(g).isEqualTo(null);
+    }
 }
