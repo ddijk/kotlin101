@@ -31,7 +31,7 @@ class Dollar(val cents: Int) {
 }
 
 
-class Employee(val name: String, val salary: Int)
+class Employee(val name: String="jeff", val salary: Int=999)
 
 class Department(val name: String, var employees: List<Employee> = listOf()) {
     var manager: Employee? = null
